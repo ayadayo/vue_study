@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p>現在の時刻：{{time()}}</p>
+    <ul v-for="item in items" :key="item.name">
+      <li>{{item.name}} <input type="number" v-model="item.goodNumber"></li>
+    </ul>
+    <div class="result" :style="errorStyle">
+      <ul v-for="item in items" :key="item.name">
+        <li>{{item.name}} {{item.price}}×{{item.goodNumber}} = {{item.price * item.goodNumber | addConma}}円</li>
+      </ul>
+      <p>小計：　{{totalPrice | addConma}}円</p>     
+      <p>合計：　{{totalPricetax | addConma}}円</p>
+      <div class="error" v-show="!checkCanBuy">
+        1000円以上からご購入出来ます
+      </div>
+      <button v-bind:disabled="!checkCanBuy" @click="getBuy">購入</button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const items = [
+    {
+      name:'鉛筆',
+      price:300,
+      goodNumber:0
+    },
+    {
+      name:'ノート',
+      price:400,
+      goodNumber:0
+    },
+    {
+      name:'消しゴム',
+      price:200,
+      goodNumber:0
+    },
+    ]
+    const vm = new Vue({
+      el:'#app',
+      data:{
+        items:items
+      },
+      computed:{
+        totalPrice:function(){
+          return this.items.reduce(function(acc,current){
+            return acc + (current.price * current.goodNumber)
+          },0)
+        },
+        totalPricetax:function(){
+          return Math.floor(this.totalPrice*1.08)
+        },
+        checkCanBuy:function(){
+          return this.totalPrice >= 1000
+        },
+        errorStyle:function(){
+          return {
+            border:this.checkCanBuy ? '' : '1px solid red',
+            color:this.checkCanBuy ? '' : 'red'
+          }
+        },
+        // getValue:function(){
+        //   items.forEach(function(item){
+        //     item.goodNumber = event.target.value;
+        //   })
+        // }
+      },
+      methods: {
+        getBuy:function() {
+          alert(`${this.totalPricetax}円です`)
+        },
+        time:function() {
+          var time = Date.now()
+          return time
+        }
+      },
+      filters:{
+        addConma:function(number){
+          return number.toLocaleString()
+        }
+      }
+
+    });
+    window.vm = vm
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>コンポーネントの基礎</title>
+</head>
+<body>
+  <div id="app">
+    <item-desc v-bind:item-name='myItem'></item-desc>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+  Vue.component('item-desc',{
+    props:{
+      itemName: {
+        type:String
+      }
+    },
+    template:'<p>{{ itemName }}</p>'
+  });
+
+  new Vue({
+    el:'#app',
+    data: {
+        myItem:'この値は、親から子に与えています'
+      }
+  });
+  </script>
+</body>
+</html>
