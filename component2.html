@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<page-header>
+			<span slot="campaign-name">敬老の日</span>
+		</page-header>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		const headerTemplate = `
+		<h1>
+			<slot name="campaign-name"></slot>特集につきまして
+		</h1>
+		`;
+
+		Vue.component('page-header',{
+			template: headerTemplate
+		});
+
+		new Vue({
+			el: '#app'
+		});
+	</script>
+</body>
+</html>
