@@ -7,25 +7,42 @@
 </head>
 <body>
 	<div id="app">
-		<page-header>
-			<span slot="campaign-name">敬老の日</span>
-		</page-header>
+		<login-template></login-template>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script>
-		const headerTemplate = `
-		<h1>
-			<slot name="campaign-name"></slot>特集につきまして
-		</h1>
-		`;
 
-		Vue.component('page-header',{
-			template: headerTemplate
+	<script>
+		const auth = {
+			login: function(id,pass) {
+				window.alert(`userid:${id} password;${pass}`);
+			}
+		}
+
+		Vue.component('login-template',{
+			data: function() {
+				return {
+					userid:'',
+					password:''
+				}
+			},
+			template: `
+			<div>
+				<input type="text" v-model="userid" placeholder="ユーザー名">
+				<input type="password" v-model="password" placeholder="パスワード">
+				<button @click="login">ログイン</button>
+			</div>
+			`,
+			methods: {
+				login: function() {
+					auth.login(this.userid,this.password);
+				}
+			}
 		});
 
 		new Vue({
 			el: '#app'
 		});
+
 	</script>
 </body>
 </html>
