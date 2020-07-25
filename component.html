@@ -6,32 +6,56 @@
   <title>コンポーネントの基礎</title>
 </head>
 <body>
+	<!-- 完成図
+	梨 追加ボタン
+	りんご 追加ボタン
+	それぞれの追加ボタンをクリックするとトータルフィールドに合計値を反映させる
+-->
   <div id="app">
-		<item-desc v-for="fruit in fruitsItems" :key="fruit.name" :get-fruits="fruit"></item-desc>
+		<div id="fruit">
+			<div v-for="item in fruitsData" :bind="item.name">
+				{{item.name}} <counter-button v-on:total-increment="incrementStatus()"></counter-button>
+			</div>
+			<p>合計：{{total}}</p>
+		</div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
+		const childVue = Vue.extend({
+			data: function(){
+				return {
+					count: 0
+				}
+			},
+			methods: {
+				addCounter:function(){
+					this.count++;
+					this.$emit('total-increment')
+				}
+			},
+			template: '<span>{{count}}個 <button @click="addCounter">追加</button></span>'
 
-  Vue.component('item-desc',{
-    props: {
-      getFruits: {
-        type: Object,
-				required: true
-      }
-    },
-    template:'<li>{{ getFruits.name }}</li>'
-  });
+		});
 
-  new Vue({
-    el:'#app',
-    data: {
-				fruitsItems: [
-					{name: '梨'},
-					{name: 'りんご'},
+		new Vue({
+			el:'#app',
+			data: {
+				total:0,
+				fruitsData: [
+					{name:'梨'},
+					{name:'りんご'},
 				]
-      }
-  });
+			},
+			components: {
+				'counter-button':childVue
+			},
+			methods: {
+				incrementStatus: function(){
+					this.total++
+				}
+			}
+		})
   </script>
 </body>
 </html>
