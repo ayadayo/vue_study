@@ -7,24 +7,29 @@
 </head>
 <body>
   <div id="app">
-    <item-desc v-bind:item-name='myItem'></item-desc>
+		<item-desc v-for="fruit in fruitsItems" :key="fruit.name" :get-fruits="fruit"></item-desc>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
+
   Vue.component('item-desc',{
-    props:{
-      itemName: {
-        type:String
+    props: {
+      getFruits: {
+        type: Object,
+				required: true
       }
     },
-    template:'<p>{{ itemName }}</p>'
+    template:'<li>{{ getFruits.name }}</li>'
   });
 
   new Vue({
     el:'#app',
     data: {
-        myItem:'この値は、親から子に与えています'
+				fruitsItems: [
+					{name: '梨'},
+					{name: 'りんご'},
+				]
       }
   });
   </script>
