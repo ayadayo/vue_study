@@ -15,7 +15,6 @@
 	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	<script>
 		const router = new VueRouter({
-			mode: 'history',
 			routes: [
 				{
 					path: '/top',
@@ -24,9 +23,10 @@
 					}
 				},
 				{
-					path: '/users',
+					path: '/users/:userid',
+					name: 'user',
 					component: {
-						template: '<div>これはユーザー一覧</div>'
+						template: '<div>{{$route.params.userid}}</div>'
 					}
 				}
 			]
