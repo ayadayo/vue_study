@@ -7,41 +7,34 @@
 </head>
 <body>
 	<div id="app">
-		<login-template></login-template>
+		<router-link to="/top">トップページ</router-link>
+		<router-link to="/users">ユーザー一覧</router-link>
+		<router-view></router-view>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	<script>
-		const auth = {
-			login: function(id,pass) {
-				window.alert(`userid:${id} password;${pass}`);
-			}
-		}
-
-		Vue.component('login-template',{
-			data: function() {
-				return {
-					userid:'',
-					password:''
+		const router = new VueRouter({
+			mode: 'history',
+			routes: [
+				{
+					path: '/top',
+					component: {
+						template: '<div>これはトップ</div>'
+					}
+				},
+				{
+					path: '/users',
+					component: {
+						template: '<div>これはユーザー一覧</div>'
+					}
 				}
-			},
-			template: `
-			<div>
-				<input type="text" v-model="userid" placeholder="ユーザー名">
-				<input type="password" v-model="password" placeholder="パスワード">
-				<button @click="login">ログイン</button>
-			</div>
-			`,
-			methods: {
-				login: function() {
-					auth.login(this.userid,this.password);
-				}
-			}
+			]
 		});
 
-		new Vue({
-			el: '#app'
-		});
+		const app = new Vue({
+			router,
+		}).$mount('#app');
 
 	</script>
 </body>
