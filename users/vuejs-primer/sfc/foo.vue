@@ -1,22 +1,16 @@
 <template>
 	<div class="foo">
 		<h1 class="header">これはfooです</h1>
-		<p>これはfooのコンポーネントです</p>
 	</div>
 </template>
-<style>
-	p {
-		text-decoration: underline;
-	}
-</style>
 <style scoped>
-	.foo {
-		border: 1px solid red;
-		margin-right: 4px;
-		padding: 4px;
-	}
-	.header {
-		color: red;
-	}
+.foo {
+	border: 1px solid #000;
+	margin: 5px;
+	padding: 5px;
+}
+.header {
+	font-size: 20px;
+	color: #000;
+}
 </style>
-
