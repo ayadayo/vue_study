@@ -24,6 +24,9 @@ export default {
 .message {
 	color: orange;
 }
+.test {
+	color: red;
+}
 </style>
 <style>
 
