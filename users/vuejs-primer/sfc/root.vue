@@ -2,15 +2,18 @@
 	<div id="root">
 		<h1>rootコンポーネント</h1>
 		<p>rootコンポーネントです</p>
-		<foo/>
+		<foo class="test" />
+		<bar class="test" />
 	</div>
 </template>
 <script>
 import Foo from './foo'
+import Bar from './bar'
 
 export default {
 	components: {
-		Foo
+		Foo,
+		Bar
 	}
 }
 </script>
