@@ -2,6 +2,7 @@
 	<div id="root">
 		<h1 class="header">Rootです</h1>
 		<p>fooとbarを読み込む</p>
+		<p :class="$style.message">hello</p>
 		<bar/>
 		<foo/>
 	</div>
@@ -13,10 +14,19 @@ export default {
 	components: {
 		Foo,
 		Bar
+	},
+	created(){
+		console.log(`css modules:$style`,this.$style)
 	}
 }
 </script>
+<style module>
+.message {
+	color: orange;
+}
+</style>
 <style>
+
 #root {
 	border: 1px solid #000;
 	margin: 5px;
