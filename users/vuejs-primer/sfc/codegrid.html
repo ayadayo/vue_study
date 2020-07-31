@@ -5,8 +5,50 @@
 <title></title>
 </head>
 <body>
+<div id="Myapp">
 
+</div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+const starIcon = Vue.extend({
+	props:{
+		size:{
+			type:Number,
+			default:20
+		}
+	},
+	template:
+  '<svg :width="size" :height="size" viewBox="0 0 16 16">' +
+    '<path fill="#FBC02D" d="M16 6.2l-5.3-1.12-2.7-4.69v13.01l4.94 2.21-.57-5.39 3.63-4.02zm0 0"/>' +
+    '<path fill="#FDD835" d="M5.3 5.09l-5.3 1.11 3.63 4.02-.57 5.39 4.94-2.21v-13.01l-2.7 4.7zm0 0"/>' +
+  '</svg>',
+});
 
+const AbsoluteNumber = Vue.extend({
+	props: {
+		value:{
+			type:Number,
+			default:0
+		}
+	},
+	template:'<div>{{value}}</div>'
+});
+
+const componentRoot = new Vue({
+	components:{
+		starIcon:starIcon,
+		AbsoluteNumber:AbsoluteNumber
+	},
+	template: `
+	<div><star-icon :size="40"></star-icon><star-icon :size="20"></star-icon><star-icon :size="10"></star-icon>
+	<h1>
+	<absolute-number :value="40"></absolute-number>
+	</h1>
+	</div>`
+});
+
+componentRoot.$mount('#Myapp');
+
+</script>
 </body>
 </html>
