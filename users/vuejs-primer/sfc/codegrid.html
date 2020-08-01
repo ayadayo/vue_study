@@ -10,32 +10,128 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
- const app = new Vue({
-	 data:function(){
-		return {
-			answer:null
+	const TeaItem = Vue.extend({
+		props: {
+			name: {
+				type:String,
+				default:'',
+			},
+			src: {
+				type:String,
+				default:''
+			}
+		},
+		template:
+		`
+		<div class="teaItem">
+			<img :src='src'>
+			<div>{{name}}</div>
+		</div>
+		`
+	});
+
+	const Myapp = new Vue({
+		data:function(){
+			return {
+				selectedItemList:[],
+				teas:[
+					{
+						type:['blacktea'],
+						name:'イングリッシュ ブレックファースト',
+						img:'EnglishBreakFast.png'
+					},
+					{
+						type:['greentea'],
+						name:'シルバームーン',
+						img:'SilverMoon.png'
+					},
+					{
+						type:['smokytea'],
+						name:'トーキョー シンガポール',
+						img:'TokyoSingapore.png'
+					},
+					{
+						type:['smokytea','blacktea'],
+						name:'スモーキー アールグレイ',
+						img:'SmokyEarlGrey.png'
+					},
+				]
+			}
+		},
+		computed: {
+			noSelected:function(){
+				return this.$data.selectedItemList.length === 0;
+			}
+		},
+		template:
+		`
+		<div>
+		<button @click="toggleSelected('blacktea')">
+		<template v-if="includes('blacktea')">
+			&#10004;
+		</template>
+		紅茶
+		</button>
+		<button @click="toggleSelected('greentea')">
+		<template v-if="includes('greentea')">
+			&#10004;
+		</template>
+		緑茶</button>
+		<button @click="toggleSelected('smokytea')">
+			<template v-if="includes('smokytea')">
+			&#10004;
+		</template>
+		燻製茶
+		</button>
+		<p>
+		<template v-if="noSelected">絞り込み可能です</template>
+		<template v-else	>{{selectedItemList}}を選択中</template>
+		</p>
+		<template v-for="tea in teas" >
+			<template v-if="includesAll(tea.type)">
+				<tea-item :name=tea.name :src=tea.src></tea-item>
+			</template>
+		</template>
+		</div>
+		`,
+		//クリックしたらそのvalueを取得、配列にそのvalueがあるかどうか確かめる、なければ配列に格納||あれば配列から削除
+		methods: {
+			toggleSelected:function(value){
+				const isSelected = this.includes(value);
+				if(!isSelected) {
+					this.$data.selectedItemList.push(value);
+				} else {
+					const filtered = this.$data.selectedItemList.filter(function(el){
+						return el !== value;
+					});
+					this.$data.selectedItemList = filtered;
+				}
+			},
+			includes:function(value){
+				//valueが配列にある場合はtrue
+				return this.$data.selectedItemList.indexOf(value) !== -1
+			},
+			includesAll:function(types){
+				let matched = true;
+				this.$data.selectedItemList.forEach(function(selected){
+					//一つでも合致すれば
+					const found = types.some(function(type){
+						return type === selected;
+					});
+
+					if(!found) {
+						matched = false;
+					}
+				});
+				return matched;
+			}
+		},
+		components: {
+			TeaItem:TeaItem
 		}
-	 },
-	 template:
-	 `
-	 <div>
-		<p>あなたはVue.jsを好きになってきている？</p>
-		<p>あなたが選んだ答えは{{answer}}</p>
-	 	<button @click="setAnswer(true)">○</button>
-		<button @click="setAnswer(false)">×</button>
-		<p v-if="answer === true">正解です</p>
-		<p v-if="answer === false">不正解です</p>
-	 </div>
-	 `,
-	 methods:{
-		 setAnswer(value) {
-			 this.$data.answer = value;
-		 }
-	 }
- });
+	});
 
- app.$mount('#Myapp');
-
+	Myapp.$mount('#Myapp');
 </script>
 </body>
 </html>
